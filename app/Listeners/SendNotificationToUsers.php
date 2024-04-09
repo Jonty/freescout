@@ -41,10 +41,17 @@ class SendNotificationToUsers
                     $event_type = Subscription::EVENT_TYPE_USER_ADDED_NOTE;
                 }
                 break;
+/*
+ *  We do not want to do this, as it means that every time we create and send
+ *  an outbound email from one of our inboxes every user on that inbox is
+ *  notified. This gets extremely noisy when bulk contacting people about
+ *  talks, sponsorship, or quotes.
+ *
             case 'App\Events\UserCreatedConversation':
                 $caused_by_user_id = $event->conversation->created_by_user_id;
                 $event_type = Subscription::EVENT_TYPE_NEW;
                 break;
+*/
             case 'App\Events\CustomerCreatedConversation':
                 // Do not send notification if conversation is spam.
                 if ($event->conversation->status != Conversation::STATUS_SPAM) {
